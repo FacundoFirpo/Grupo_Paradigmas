@@ -23,7 +23,7 @@ connectedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades est
 connectedR (Reg _ _ tunels) city1 city2 = elem True (map (connectsT city1 city2 each) tunels)
 
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
-
+linkedR
 
 delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
 
