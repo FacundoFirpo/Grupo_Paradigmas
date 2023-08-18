@@ -4,7 +4,7 @@ module Quality ( Quality, newQ, capacityQ, delayQ )
 data Quality = Qua String Int Float deriving (Eq, Show)
 
 newQ :: String -> Int -> Float -> Quality
-newQ = Qua
+newQ = Qua -- newQ type capacity delay = Qua type capacity delay
 
 capacityQ :: Quality -> Int -- cuantos túneles puede tolerar esta conexión
 capacityQ (Qua _ cap _) = cap

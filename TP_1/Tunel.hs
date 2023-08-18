@@ -8,7 +8,7 @@ import Data.Bool (Bool(True))
 data Tunel = Tun [Link] deriving (Eq, Show)
 
 newT :: [Link] -> Tunel
-newT = Tun
+newT = Tun -- newT links = Tun links
 
 connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
 connectsT city1 city2 (Tun links) = (cityPositionInL city1 (head links) == 1 && cityPositionInL city2 (last links) == 2) || 
