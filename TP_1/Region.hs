@@ -56,10 +56,10 @@ findTunel tunels city1 city2 | connectsT city1 city2 (head tunels) = head tunels
 delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
 delayR (Reg _ _ tunels) city1 city2 = delayT (findTunel tunels city1 city2)
 
-count :: Eq a => a -> [a] -> Int
+count :: Eq a => a -> [a] -> Int -- cuenta las repeticiones de un elemento en una lista
 count target = foldr (\each fold -> if target == each then fold +1 else fold) 0
 
-usedCapacity :: Link -> [Tunel] -> Int
+usedCapacity :: Link -> [Tunel] -> Int -- indica la capacidad usada de un link
 usedCapacity link tunels = count True (map (usesT link)tunels) 
 
 availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
