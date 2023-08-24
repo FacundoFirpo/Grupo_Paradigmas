@@ -16,11 +16,11 @@ connectsL city (Lin city1 city2 _) = city == city1 || city == city2
 linksL :: City -> City -> Link -> Bool -- indica si estas dos ciudades distintas estan conectadas mediante este link
 linksL city1 city2 (Lin start finish _) = (start == city1 && finish == city2) || (start == city2 && finish == city1)
 
-capacityL :: Link -> Int
+capacityL :: Link -> Int -- la capacidad del link
 capacityL (Lin _ _ quality) = capacityQ quality
 
-delayL :: Link -> Float     -- la demora que sufre una conexion en este canal
-delayL (Lin _ _ quality) = delayQ quality
+delayL :: Link -> Float    -- la demora que sufre una conexion en este canal
+delayL (Lin city1 city2 quality) = delayQ quality * distanceC city1 city2
 
 cA = newC "Nottingham" (newP 5 8)
 cB = newC "BS AS" (newP 10 40)
