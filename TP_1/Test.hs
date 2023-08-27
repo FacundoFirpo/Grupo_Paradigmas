@@ -81,3 +81,4 @@ testR = [connectedR r1 c1 c3,
          not (delayR r1 c1 c3 == 10),
          availableCapacityForR r1 c1 c2 == 4,
          not (availableCapacityForR r1 c2 c3 == 3)]
+         not (availableCapacityForR r1 c2 c3 == 3)]
