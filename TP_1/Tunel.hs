@@ -26,12 +26,3 @@ usesT link (Tun links) = link `elem` links
 
 delayT :: Tunel -> Float -- la demora que sufre una conexion en este tunel
 delayT (Tun links) = sum (map delayL links)
-
-cA = newC "Nottingham" (newP 5 8)
-cB = newC "BS AS" (newP 10 40)
-qA = newQ "Pro" 5 1.0
-cC = newC "Udesa" (newP 8 3)
-lA = newL cA cB qA
-lB = newL cB cC qA
-tA = newT [lA, lB]
-lC = newL cA cC qA
