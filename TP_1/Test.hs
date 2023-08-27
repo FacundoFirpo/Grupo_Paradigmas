@@ -2,6 +2,8 @@ import Point
 import City
 import Quality
 import Link
+import Tunel
+import Region
 
 -- Point
 
@@ -38,6 +40,7 @@ testQ = [capacityQ q1 == 5,
 
 l1 = newL c1 c2 q1
 l2 = newL c2 c3 q2
+l3 = newL c1 c3 q1
 
 testL = [connectsL c1 l1,
          not (connectsL c1 l2),
@@ -49,3 +52,32 @@ testL = [connectsL c1 l1,
          not (capacityL l1 == 3),
          delayL l1 == 3.2015622,
          not (delayL l2 == 3)]
+
+-- Tunnel
+
+t1 = newT [l1, l2]
+t2 = newT [l1, l3]
+t3 = newT [l2, l3]
+
+testT = [connectsT c1 c3 t1,
+         connectsT c3 c1 t1,
+         not (connectsT c2 c3 t1),
+         usesT l1 t1,
+         not (usesT l3 t1),
+         delayT t1 == 15.367087,
+         not (delayT t2 == 6.4015627)] 
+
+-- Region
+
+r1 = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q1) c2 c3 q2) [c1, c2, c3]
+
+testR = [connectedR r1 c1 c3,
+         connectedR r1 c3 c1,
+         not (connectedR r1 c2 c3),
+         linkedR r1 c1 c2,
+         not (linkedR r1 c1 c3),
+         delayR r1 c1 c3 == 15.367087,
+         delayR r1 c3 c1 == 15.367087,
+         not (delayR r1 c1 c3 == 10),
+         availableCapacityForR r1 c1 c2 == 4,
+         not (availableCapacityForR r1 c2 c3 == 3)]

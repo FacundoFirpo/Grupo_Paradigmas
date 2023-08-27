@@ -78,15 +78,3 @@ availableCapacityForR (Reg cities links tunels) city1 city2
     | otherwise = capacityL link - usedCapacity link tunels
    where
       link = findCitiesLink links city1 city2
-
-cA = newC "Nottingham" (newP 5 8)
-cB = newC "BS AS" (newP 10 40)
-cC = newC "Udesa" (newP 8 3)
-cD = newC "SB" (newP 10 3)
-qA = newQ "Pro" 5 1.0
-qB = newQ "Medium" 3 0.5
-lA = newL cA cB qA
-lB = newL cB cC qA
-lC = newL cC cD qB
-tA = newT [lA, lB, lC]
-rA = tunelR (linkR (linkR (linkR (foundR (foundR (foundR (foundR newR cA) cB) cC) cD) cA cB qA) cB cC qA) cD cC qB) [cA, cB, cC, cD]
