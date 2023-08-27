@@ -21,7 +21,7 @@ foundR (Reg cities links tunels) city
       | 0 `elem` map (distanceC city) cities = error"Ya existe una ciudad en ese punto"
       | otherwise = Reg (cities ++ [city]) links tunels
 
-existingLink :: [Link] -> City -> City -> Bool
+existingLink :: [Link] -> City -> City -> Bool -- indica si existe un link entre dos ciudades
 existingLink links city1 city2 = any (linksL city1 city2) links
 
 linkR :: Region -> City -> City -> Quality -> Region -- enlaza dos ciudades de la región con un enlace de la calidad indicada
@@ -40,12 +40,16 @@ findCitiesLink links city1 city2 | linksL city1 city2 (head links) = head links
 
 createLinksTunel :: [Link] -> [City] -> [Link] -- crea una lista de links para crear un tunel 
 createLinksTunel links cities | length cities == 1 = []
-                              | otherwise = findCitiesLink links (head cities) (cities !! 1) : createLinksTunel links (tail cities) 
+                              | otherwise = findCitiesLink links (head cities) (cities !! 1) : createLinksTunel links (tail cities)
+
+checkCapacityLinks :: Region -> [City] -> Bool -- indica si hay capacidad disponible en los links para crear un tunel
+checkCapacityLinks (Reg cities links tunels) citiesTunel | length citiesTunel == 1 = True
+                                                         | availableCapacityForR (Reg cities links tunels) (head citiesTunel) (citiesTunel !! 1) > 0 = checkCapacityLinks (Reg cities links tunels) (tail citiesTunel)
+                                                         | otherwise = error"Alguno de los links utilizados no tiene capacidad disponible"
 
 tunelR :: Region -> [City] -> Region -- genera una comunicación entre dos ciudades distintas de la región
-tunelR (Reg cities links tunels) citiesTunel | length citiesTunel == 1 = Reg cities links (tunels ++ [tunel])
-                                             | availableCapacityForR (Reg cities links tunels) (head citiesTunel) (citiesTunel !! 1) > 0 = tunelR (Reg cities links tunels) (tail citiesTunel)
-                                             | otherwise = error"Alguno de los links utilizados no tiene capacidad disponible"
+tunelR (Reg cities links tunels) citiesTunel | checkCapacityLinks (Reg cities links tunels) citiesTunel = Reg cities links (tunels ++ [tunel])
+                                             | otherwise = error"No se pudo crear el tunel"
     where
         tunel = newT (createLinksTunel links citiesTunel)
 
@@ -85,4 +89,4 @@ lA = newL cA cB qA
 lB = newL cB cC qA
 lC = newL cC cD qB
 tA = newT [lA, lB, lC]
-rA = linkR (linkR (linkR (foundR (foundR (foundR (foundR newR cA) cB) cC) cD) cA cB qA) cB cC qA) cD cC qB
+rA = tunelR (linkR (linkR (linkR (foundR (foundR (foundR (foundR newR cA) cB) cC) cD) cA cB qA) cB cC qA) cD cC qB) [cA, cB, cC, cD]

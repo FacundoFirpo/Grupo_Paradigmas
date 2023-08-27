@@ -21,9 +21,3 @@ capacityL (Lin _ _ quality) = capacityQ quality
 
 delayL :: Link -> Float    -- la demora que sufre una conexion en este canal
 delayL (Lin city1 city2 quality) = delayQ quality * distanceC city1 city2
-
-cA = newC "Nottingham" (newP 5 8)
-cB = newC "BS AS" (newP 10 40)
-cC = newC "Udesa" (newP 8 3)
-qA = newQ "Pro" 5 1.0
-lA = newL cA cB qA
