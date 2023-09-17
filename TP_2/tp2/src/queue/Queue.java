@@ -1,43 +1,30 @@
 package queue;
 
-import java.util.*;
-public class Queue extends Status{
+import java.util.ArrayList;
+import java.util.Arrays;
 
-	public ArrayList<Object> queue = new ArrayList<Object>();
-	public static Status status;
-	Queue(){
-		createStatus();
-	}
+public class Queue {
+	private ArrayList<Empty> queue = new ArrayList( Arrays.asList( new Empty() ) );
 
-	@Override
-	public Status previousStatus() {
-		return null;
-	}
-
-	public void createStatus(){
-		status = new EmptyList( );
-	}
-
-	public boolean isEmpty(){
-		return status.isEmpty();
-	}
+	public boolean isEmpty(){ return queue.get( 0 ).isEmpty(); }
 
 	public Queue add( Object cargo ){
-		status = new NotEmptyList( status, queue );
-		queue.add( cargo );
+		queue.add( this.size() , new Item( cargo ) );
 		return this;
 	}
 
-	public Object take(){
-		Object head = status.take();
-		status = status.previousStatus( );
-	    return head;
-	}
 	public Object head(){
-		return status.head();
+		return queue.get( 0 ).head();
 	}
+
+	public Object take(){
+		Object item = this.head();
+		queue.remove( 0 );
+		return item;
+	}
+
 	public int size(){
-		return queue.size();
+		return queue.size() - 1;
 	}
 
 }
