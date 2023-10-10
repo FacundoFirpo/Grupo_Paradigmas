@@ -1,5 +1,5 @@
 package tp3;
-
+//
 public abstract class Orientation {
 
     public abstract int getDirection();

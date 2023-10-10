@@ -1,5 +1,5 @@
 package tp3;
-
+//
 public class North extends Orientation{
 
     public int changeDirection( char order ){
