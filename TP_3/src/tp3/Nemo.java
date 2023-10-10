@@ -1,10 +1,11 @@
 package tp3;
 
 public class Nemo {
-    private int depth;
-    private int xPosition;
-    private int yPosition;
-    protected Nemo direction;
+    protected static int depth;
+    protected static int xPosition;
+    protected static int yPosition;
+    protected static Orientation orientation;
+    public static Orientation[] orientations = { new North(), new East(), new South(), new West() };
 
     public static final String ERRORSURFACE = "Nemo is on the surface";
     public static final String ERRORDEPTH = "Nemo is too deep";
@@ -14,7 +15,7 @@ public class Nemo {
         depth = 0;
         xPosition = 0;
         yPosition = 0;
-        direction = new North();
+        orientation = orientations[0];
     }
 
     public boolean isOnSurface() {
@@ -28,29 +29,31 @@ public class Nemo {
 
     public void move( String order ) {
         for (int i = 0; i < order.length(); i++){
-            changeDepth( order.charAt(i) );
-            changeDirection( order.charAt(i) );
-            changePosition( order.charAt(i) );
-            if ( order.charAt(i) == 'm'){
-                releaseCapsule();
-            }
-        }
-        if (direction < 0) {
-            direction = direction + 4;
+            applyInstruction( order.charAt(i) );
         }
     }
 
     public void moveChar( char order ) {
-        changeDepth( order );
-        changeDirection( order );
-        changePosition( order );
+        applyInstruction( order );
+    }
+
+    public void applyInstruction( char order ){
+        if ( order == 'u' || order == 'd' ){
+            changeDepth( order );
+        }
+        if ( order == 'r' || order == 'l' ){
+            changeDirection( order );
+        }
+        if ( order == 'f' ){
+            changePosition( order );
+        }
         if ( order == 'm'){
             releaseCapsule();
         }
     }
 
-    public Nemo getDirection() {
-        return direction;
+    public int getDirection() {
+        return orientation.getDirection();
     }
 
     public void changeDepth( char order ){
@@ -60,7 +63,7 @@ public class Nemo {
             } else {
                 throw new RuntimeException( ERRORDEPTH );
             }
-        } else if (order == 'u') {
+        } else {
             if (depth > 0) {
                 depth--;
             } else {
@@ -70,20 +73,11 @@ public class Nemo {
     }
 
     public void changeDirection( char order ){
+        orientation = orientations[ orientation.changeDirection( order ) ];
     }
 
     public void changePosition( char order ){
-        if (order == 'f') {
-            if (direction == 0) {
-                yPosition++;
-            } else if (direction == 1) {
-                xPosition++;
-            } else if (direction == 2) {
-                yPosition--;
-            } else if (direction == 3) {
-                xPosition--;
-            }
-        }
+        orientation.changePosition( order );
     }
 
     public void releaseCapsule() {

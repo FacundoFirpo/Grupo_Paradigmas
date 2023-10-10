@@ -1,12 +1,18 @@
 package tp3;
 
-public class West extends Nemo{
+public class West extends Orientation{
 
-    public void changeDirection( char order ){
+    public int changeDirection( char order ){
         if (order == 'r') {
-            direction = new North();
-        } else if (order == 'l') {
-            direction = new South();
-        }
+            return 0;
+        } return 2;
+    }
+
+    public void changePosition( char order ){
+        Nemo.xPosition--;
+    }
+
+    public int getDirection() {
+        return 3;
     }
 }
