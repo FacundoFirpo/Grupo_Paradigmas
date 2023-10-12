@@ -1,6 +1,9 @@
-package tp3;
-//
-public class West extends Orientation{
+package tp3.orientation;
+
+import tp3.Nemo;
+import tp3.orientation.Orientation;
+
+public class West extends Orientation {
 
     public int changeDirection( char order ){
         if (order == 'r') {
@@ -9,7 +12,7 @@ public class West extends Orientation{
     }
 
     public void changePosition( char order ){
-        Nemo.xPosition--;
+        Nemo.coordinates.subXCoo();
     }
 
     public int getDirection() {

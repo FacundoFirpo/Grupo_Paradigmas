@@ -1,6 +1,9 @@
-package tp3;
-//
-public class South extends Orientation{
+package tp3.orientation;
+
+import tp3.Nemo;
+import tp3.orientation.Orientation;
+
+public class South extends Orientation {
 
     public int changeDirection( char order ){
         if (order == 'r') {
@@ -9,7 +12,7 @@ public class South extends Orientation{
     }
 
     public void changePosition( char order ){
-        Nemo.yPosition--;
+        Nemo.coordinates.subYCoo();
     }
 
     public int getDirection() {

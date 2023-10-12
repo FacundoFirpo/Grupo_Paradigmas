@@ -1,20 +1,26 @@
 package tp3;
-//
+
+import tp3.coordinates.Coordinates;
+import tp3.orientation.*;
+
 public class Nemo {
-    protected static int depth;
-    protected static int xPosition;
-    protected static int yPosition;
-    protected static Orientation orientation;
+    public static int depth;
+    public static Coordinates coordinates;
+    public static Orientation orientation;
     public static Orientation[] orientations = { new North(), new East(), new South(), new West() };
 
     public static final String ERRORSURFACE = "Nemo is on the surface";
     public static final String ERRORDEPTH = "Nemo is too deep";
     public static final String ERRORCAPSULE = "Nemo can't release the capsule";
 
-    public Nemo() {
+    public Nemo(){
         depth = 0;
-        xPosition = 0;
-        yPosition = 0;
+        coordinates = new Coordinates( 0, 0 );
+        orientation = orientations[0];
+    }
+    public Nemo( int x, int y) {
+        depth = 0;
+        coordinates = new Coordinates( x, y );
         orientation = orientations[0];
     }
 
@@ -23,7 +29,7 @@ public class Nemo {
     }
 
     public int[] getPosition() {
-        int[] position = {xPosition, yPosition, depth};
+        int[] position = {coordinates.xPosition, coordinates.yPosition, depth};
         return position;
     }
 
