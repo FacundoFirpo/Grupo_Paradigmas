@@ -1,10 +1,13 @@
 package tp3;
 
-import tp3.coordinates.Coordinates;
+import tp3.coordinates.*;
 import tp3.orientation.*;
+import tp3.depth.*;
+import java.util.*;
+
 
 public class Nemo {
-    public static int depth;
+    public static ArrayList<Depth> depth;
     public static Coordinates coordinates;
     public static Orientation orientation;
     public static Orientation[] orientations = { new North(), new East(), new South(), new West() };
@@ -14,22 +17,24 @@ public class Nemo {
     public static final String ERRORCAPSULE = "Nemo can't release the capsule";
 
     public Nemo(){
-        depth = 0;
+        depth = new ArrayList<>();
+        depth.add( new Surface() );
         coordinates = new Coordinates( 0, 0 );
         orientation = orientations[0];
     }
     public Nemo( int x, int y) {
-        depth = 0;
+        depth = new ArrayList<>( );
+        depth.add( new Surface() );
         coordinates = new Coordinates( x, y );
         orientation = orientations[0];
     }
 
     public boolean isOnSurface() {
-        return depth == 0;
+        return depth.get( depth() ).isOnSurface();
     }
 
     public int[] getPosition() {
-        int[] position = {coordinates.xPosition, coordinates.yPosition, depth};
+        int[] position = {coordinates.xPosition, coordinates.yPosition, depth() };
         return position;
     }
 
@@ -64,17 +69,10 @@ public class Nemo {
 
     public void changeDepth( char order ){
         if (order == 'd') {
-            if ( depth < 11034 ){
-                depth++;
-            } else {
-                throw new RuntimeException( ERRORDEPTH );
-            }
+            depth.add( depth.get( depth() ).goDown()  );
         } else {
-            if (depth > 0) {
-                depth--;
-            } else {
-                throw new RuntimeException( ERRORSURFACE );
-            }
+            depth.get( depth() ).goUp();
+            depth.remove( depth() );
         }
     }
 
@@ -87,9 +85,10 @@ public class Nemo {
     }
 
     public void releaseCapsule() {
-        if (depth > 1) {
-            throw new RuntimeException( ERRORCAPSULE );
-        }
+        depth.get( depth() ).releaseCapsule();
     }
 
+    private int depth() {
+        return depth.size() - 1;
+    }
 }

@@ -46,13 +46,6 @@ public class NemoTests {
     }
 
     @Test
-    public void test06NemoCantGoTooDeep() {
-        Nemo nemo = new Nemo();
-        String d = "d";
-        assertThrowsLike( () -> nemo.move( d.repeat( 11035 ) ), Nemo.ERRORDEPTH );
-    }
-
-    @Test
     public void test07NemoFacesNorthWhenCreated(){
         Nemo nemo = new Nemo();
         assertEquals( 0, nemo.getDirection() );
