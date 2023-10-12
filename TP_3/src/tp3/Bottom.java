@@ -1,6 +1,6 @@
-package tp3.depth;
+package tp3;
 
-public class Bottom extends Depth{
+public class Bottom extends Depth {
     public static final String ERRORCAPSULE = "Nemo can't release the capsule";
 
     public boolean isOnSurface(){

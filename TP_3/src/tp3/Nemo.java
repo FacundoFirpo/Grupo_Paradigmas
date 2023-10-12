@@ -1,8 +1,5 @@
 package tp3;
 
-import tp3.coordinates.*;
-import tp3.orientation.*;
-import tp3.depth.*;
 import java.util.*;
 
 
@@ -11,9 +8,9 @@ public class Nemo {
     public static Coordinates coordinates;
     public static Orientation orientation;
     public static Orientation[] orientations = { new North(), new East(), new South(), new West() };
+    public static Instructions[] instructions = { new Forward(), new Right(), new Left(), new Up(), new Down(), new Capsule(), new Nothing() };
 
     public static final String ERRORSURFACE = "Nemo is on the surface";
-    public static final String ERRORDEPTH = "Nemo is too deep";
     public static final String ERRORCAPSULE = "Nemo can't release the capsule";
 
     public Nemo(){
@@ -49,46 +46,14 @@ public class Nemo {
     }
 
     public void applyInstruction( char order ){
-        if ( order == 'u' || order == 'd' ){
-            changeDepth( order );
-        }
-        if ( order == 'r' || order == 'l' ){
-            changeDirection( order );
-        }
-        if ( order == 'f' ){
-            changePosition( order );
-        }
-        if ( order == 'm'){
-            releaseCapsule();
-        }
+        new Instructions().doSomething( order );
     }
 
     public int getDirection() {
         return orientation.getDirection();
     }
 
-    public void changeDepth( char order ){
-        if (order == 'd') {
-            depth.add( depth.get( depth() ).goDown()  );
-        } else {
-            depth.get( depth() ).goUp();
-            depth.remove( depth() );
-        }
-    }
-
-    public void changeDirection( char order ){
-        orientation = orientations[ orientation.changeDirection( order ) ];
-    }
-
-    public void changePosition( char order ){
-        orientation.changePosition( order );
-    }
-
-    public void releaseCapsule() {
-        depth.get( depth() ).releaseCapsule();
-    }
-
-    private int depth() {
+    public static int depth() {
         return depth.size() - 1;
     }
 }

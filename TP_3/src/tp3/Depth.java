@@ -1,4 +1,4 @@
-package tp3.depth;
+package tp3;
 
 public abstract class Depth {
 

@@ -1,4 +1,4 @@
-package tp3.coordinates;
+package tp3;
 
 public class Coordinates {
 

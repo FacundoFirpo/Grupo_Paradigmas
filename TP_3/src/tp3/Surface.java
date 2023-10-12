@@ -1,6 +1,6 @@
-package tp3.depth;
+package tp3;
 
-public class Surface extends Depth{
+public class Surface extends Depth {
     public static final String ERRORSURFACE = "Nemo is on the surface";
 
     public boolean isOnSurface(){
