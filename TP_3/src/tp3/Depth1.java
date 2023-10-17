@@ -1,12 +1,9 @@
 package tp3;
 
-import tp3.Bottom;
-import tp3.Depth;
-
 public class Depth1 extends Depth {
 
         public boolean isOnSurface(){
-            return true;
+            return false;
         }
 
         public Depth goDown(){

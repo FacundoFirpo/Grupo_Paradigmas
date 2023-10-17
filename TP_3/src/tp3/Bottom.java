@@ -1,10 +1,9 @@
 package tp3;
 
 public class Bottom extends Depth {
-    public static final String ERRORCAPSULE = "Nemo can't release the capsule";
 
     public boolean isOnSurface(){
-        return true;
+        return false;
     }
 
     public Depth goDown(){
@@ -14,6 +13,6 @@ public class Bottom extends Depth {
     public void goUp(){}
 
     public void releaseCapsule(){
-        throw new RuntimeException( ERRORCAPSULE );
+        throw new RuntimeException( Nemo.ERRORCAPSULE );
     }
 }

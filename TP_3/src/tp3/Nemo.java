@@ -11,7 +11,7 @@ public class Nemo {
     public static Instructions[] instructions = { new Forward(), new Right(), new Left(), new Up(), new Down(), new Capsule(), new Nothing() };
 
     public static final String ERRORSURFACE = "Nemo is on the surface";
-    public static final String ERRORCAPSULE = "Nemo can't release the capsule";
+    public static final String ERRORCAPSULE = "Nemo can't release the capsule. EXPLOSION!!!";
 
     public Nemo(){
         depth = new ArrayList<>();
@@ -19,11 +19,11 @@ public class Nemo {
         coordinates = new Coordinates( 0, 0 );
         orientation = orientations[0];
     }
-    public Nemo( int x, int y) {
+    public Nemo( int x, int y, int startingOrientation ) {
         depth = new ArrayList<>( );
         depth.add( new Surface() );
         coordinates = new Coordinates( x, y );
-        orientation = orientations[0];
+        orientation = orientations[startingOrientation];
     }
 
     public boolean isOnSurface() {
@@ -35,10 +35,13 @@ public class Nemo {
         return position;
     }
 
-    public void move( String order ) {
-        for (int i = 0; i < order.length(); i++){
-            applyInstruction( order.charAt(i) );
-        }
+    public void move( String direction ) {
+
+        direction.chars()
+            .forEach( order -> {
+                char orderChar = (char) order;
+                applyInstruction( orderChar );
+            });
     }
 
     public void moveChar( char order ) {
