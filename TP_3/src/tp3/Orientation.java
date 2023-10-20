@@ -2,11 +2,11 @@ package tp3;
 
 public abstract class Orientation {
 
-    public abstract int goRight();
+    public abstract Orientation goRight();
 
-    public abstract int goLeft();
+    public abstract Orientation goLeft();
 
-    public abstract void changePosition();
+    public abstract void changePosition( Nemo nemo );
 
-    public abstract int getDirection();
+    public abstract String getOrientation();
 }

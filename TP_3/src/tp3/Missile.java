@@ -1,12 +1,12 @@
 package tp3;
 
-public class Down extends Instructions {
+public class Missile extends Instructions {
 
     public void work( Nemo nemo ){
-        nemo.goDown();
+        nemo.releaseMissile();
     }
 
     public boolean letter( char order ){
-        return order == 'd';
+        return order == 'm';
     }
 }

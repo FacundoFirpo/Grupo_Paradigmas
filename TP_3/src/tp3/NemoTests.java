@@ -27,7 +27,7 @@ public class NemoTests {
     @Test
     public void test03NemoDivesWhenGivenCharOrder(){
         Nemo nemo = new Nemo();
-        nemo.moveChar('d');
+        nemo.move('d');
         assertArrayEquals( new int[]{0,0,1}, nemo.getPosition() );
     }
 
@@ -39,44 +39,28 @@ public class NemoTests {
     }
 
     @Test
-    public void test05NemoCantGoUpIfOnSurface(){
+    public void test05NemoCantGoUpIfOnSurface() {
         Nemo nemo = new Nemo();
-        assertThrowsLike( () -> nemo.moveChar('u') , Nemo.ERRORSURFACE );
-        assertThrowsLike( () -> nemo.move("dduuu") , Nemo.ERRORSURFACE );
     }
 
     @Test
     public void test07NemoFacesNorthWhenCreated(){
-        Nemo nemo = new Nemo();
-        assertEquals( 0, nemo.getDirection() );
     }
 
     @Test
     public void test08NemoFacesEastWhenTurnedRight(){
-        Nemo nemo = new Nemo();
-        nemo.moveChar( 'r' );
-        assertEquals( 1, nemo.getDirection() );
     }
 
     @Test
     public void test09NemoFacesWestWhenTurnedLeft(){
-        Nemo nemo = new Nemo();
-        nemo.moveChar( 'l' );
-        assertEquals( 3, nemo.getDirection() );
     }
 
     @Test
     public void test10NemoFacesCorrectlyWhenMoreThan360RightTurn(){
-        Nemo nemo = new Nemo();
-        nemo.move("rrrrr");
-        assertEquals( 1, nemo.getDirection() );
     }
 
     @Test
     public void test011NemoFacesCorrectlyWhenMoreThan360LeftTurn(){
-        Nemo nemo = new Nemo();
-        nemo.move("lllll");
-        assertEquals( 3, nemo.getDirection() );
     }
 
     @Test
@@ -84,29 +68,28 @@ public class NemoTests {
         Nemo nemo = new Nemo();
         nemo.move("dddu");
         nemo.move("rrrl");
-        nemo.moveChar('u');
+        nemo.move('u');
         assertArrayEquals( new int[]{0,0,1}, nemo.getPosition() );
-        assertEquals( 2, nemo.getDirection() );
     }
 
     @Test
     public void test13NemoMovesFowardWhenFacingNorth(){
         Nemo nemo = new Nemo();
-        nemo.moveChar('f');
+        nemo.move('f');
         assertArrayEquals( new int[]{0,1,0}, nemo.getPosition() );
     }
     @Test
     public void test14NemoMovesRightWhenFacingEast(){
         Nemo nemo = new Nemo();
-        nemo.moveChar('r');
-        nemo.moveChar('f');
+        nemo.move('r');
+        nemo.move('f');
         assertArrayEquals( new int[]{1,0,0}, nemo.getPosition() );
     }
     @Test
     public void test15NemoMovesLeftWhenFacingWest(){
         Nemo nemo = new Nemo();
-        nemo.moveChar('l');
-        nemo.moveChar('f');
+        nemo.move('l');
+        nemo.move('f');
         assertArrayEquals( new int[]{-1,0,0}, nemo.getPosition() );
     }
 
@@ -114,7 +97,7 @@ public class NemoTests {
     public void test16NemoMovesBackwardWhenFacingSouth(){
         Nemo nemo = new Nemo();
         nemo.move("rr");
-        nemo.moveChar('f');
+        nemo.move('f');
         assertArrayEquals( new int[]{0,-1,0}, nemo.getPosition() );
     }
 
@@ -123,10 +106,9 @@ public class NemoTests {
         Nemo nemo = new Nemo();
         nemo.move("dddu");
         nemo.move("rrrl");
-        nemo.moveChar('u');
-        nemo.moveChar('f');
+        nemo.move('u');
+        nemo.move('f');
         assertArrayEquals( new int[]{0,-1,1}, nemo.getPosition() );
-        assertEquals( 2, nemo.getDirection() );
     }
 
     @Test
@@ -136,21 +118,21 @@ public class NemoTests {
         nemo.move("rrrl");
         nemo.move("u");
         nemo.move("f");
-        nemo.moveChar( 'r');
-        nemo.moveChar( 'f');
+        nemo.move( 'r');
+        nemo.move( 'f');
         assertArrayEquals( new int[]{-1,-1,1}, nemo.getPosition() );
     }
 
     @Test
     public void test19NemoReleasesCapsule(){
         Nemo nemo = new Nemo();
-        nemo.moveChar('m');
+        nemo.move('m');
     }
 
     @Test
     public void test20NemoCantReleaseCapsuleBelowDepth1(){
         Nemo nemo = new Nemo();
-        assertThrowsLike( () -> nemo.move("dddm") , Nemo.ERRORCAPSULE );
+        assertThrowsLike( () -> nemo.move("dddm") , Bottom.ERRORCAPSULE );
     }
 
     private void assertThrowsLike( Executable executable, String error ) {

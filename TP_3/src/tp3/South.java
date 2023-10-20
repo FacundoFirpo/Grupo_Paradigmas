@@ -1,23 +1,20 @@
 package tp3;
 
-import tp3.Nemo;
-import tp3.Orientation;
-
 public class South extends Orientation {
 
-    public int goRight(){
-        return 3;
+    public Orientation goRight(){
+        return new West();
     }
 
-    public int goLeft(){
-        return 1;
+    public Orientation goLeft(){
+        return new East();
     }
 
-    public void changePosition(){
-        Nemo.coordinates.subYCoo();
+    public void changePosition( Nemo nemo ){
+        nemo.subYCoo();
     }
 
-    public int getDirection() {
-        return 2;
+    public String getOrientation() {
+        return "South";
     }
 }

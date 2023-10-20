@@ -2,19 +2,17 @@ package tp3;
 
 public class North extends Orientation {
 
-    public int goRight(){
-        return 1;
+    public Orientation goRight(){
+        return new East();
     }
 
-    public int goLeft(){
-        return 3;
+    public Orientation goLeft(){
+        return new West();
     }
 
-    public void changePosition(){
-        Nemo.coordinates.addYCoo();
-    }
+    public void changePosition( Nemo nemo ){ nemo.addYCoo(); }
 
-    public int getDirection(){
-        return 0;
+    public String getOrientation(){
+        return "North";
     }
 }

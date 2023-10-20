@@ -1,19 +1,22 @@
 package tp3;
 
 public class Surface extends Depth {
-    public static final String ERRORSURFACE = "Nemo is on the surface";
 
     public boolean isOnSurface(){
         return true;
     }
 
     public Depth goDown(){
-        return new Depth1();
+        return new Shallow();
     }
 
-    public void goUp(){
-        throw new RuntimeException( ERRORSURFACE );
+    public Depth goUp(){
+        return new Surface();
     }
 
-    public void releaseCapsule(){}
+    public void releaseMissile(){}
+
+    public int getDepth(){
+        return 0;
+    }
 }

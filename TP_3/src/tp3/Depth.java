@@ -1,12 +1,16 @@
 package tp3;
 
+import java.util.ArrayList;
+
 public abstract class Depth {
 
     public abstract boolean isOnSurface();
 
     public abstract Depth goDown();
 
-    public abstract void goUp();
+    public abstract Depth goUp();
 
-    public abstract void releaseCapsule();
+    public abstract void releaseMissile();
+
+    public abstract int getDepth();
 }

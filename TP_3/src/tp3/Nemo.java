@@ -1,62 +1,84 @@
 package tp3;
 
+
 import java.util.*;
 
-
 public class Nemo {
-    public static ArrayList<Depth> depth;
+    public static Depth depth;
     public static Coordinates coordinates;
     public static Orientation orientation;
-    public static Orientation[] orientations = { new North(), new East(), new South(), new West() };
-    public static Instructions[] instructions = { new Forward(), new Right(), new Left(), new Up(), new Down(), new Capsule(), new Nothing() };
-
-    public static final String ERRORSURFACE = "Nemo is on the surface";
-    public static final String ERRORCAPSULE = "Nemo can't release the capsule. EXPLOSION!!!";
 
     public Nemo(){
-        depth = new ArrayList<>();
-        depth.add( new Surface() );
+        depth = new Surface();
         coordinates = new Coordinates( 0, 0 );
-        orientation = orientations[0];
+        orientation = new North();
     }
-    public Nemo( int x, int y, int startingOrientation ) {
-        depth = new ArrayList<>( );
-        depth.add( new Surface() );
+    public Nemo(int x, int y, Orientation startingOrientation ) {
+        depth = new Surface();
         coordinates = new Coordinates( x, y );
-        orientation = orientations[startingOrientation];
+        orientation = startingOrientation;
     }
 
     public boolean isOnSurface() {
-        return depth.get( depth() ).isOnSurface();
+        return depth.isOnSurface();
     }
 
     public int[] getPosition() {
-        int[] position = {coordinates.xPosition, coordinates.yPosition, depth() };
+        int[] position = { coordinates.getX(), coordinates.getY(), depth.getDepth() };
         return position;
     }
 
-    public void move( String direction ) {
+    public void move( String instruction ) {
 
-        direction.chars()
-            .forEach( order -> {
-                char orderChar = (char) order;
-                applyInstruction( orderChar );
-            });
+        instruction.chars()
+                .forEach( order -> move( (char) order ) );
     }
 
-    public void moveChar( char order ) {
-        applyInstruction( order );
+    public void move( char order ) {
+        Instructions.instructionFor( order,this );
     }
 
-    public void applyInstruction( char order ){
-        new Instructions().doSomething( order );
+    public String getOrientation() {
+        return orientation.getOrientation();
     }
 
-    public int getDirection() {
-        return orientation.getDirection();
+    public void goRight(){
+        orientation = orientation.goRight();
     }
 
-    public static int depth() {
-        return depth.size() - 1;
+    public void goLeft(){
+        orientation = orientation.goLeft();
+    }
+
+    public void goUp(){
+        depth = depth.goUp();
+    }
+
+    public void goDown(){
+        depth = depth.goDown();
+    }
+
+    public void releaseMissile(){
+        depth.releaseMissile();
+    }
+
+    public void changePosition(){
+        orientation.changePosition( this );
+    }
+
+    public void addYCoo(){
+        coordinates.addYCoo();
+    }
+
+    public void subYCoo(){
+        coordinates.subYCoo();
+    }
+
+    public void addXCoo(){
+        coordinates.addXCoo();
+    }
+
+    public void subXCoo(){
+        coordinates.subXCoo();
     }
 }
