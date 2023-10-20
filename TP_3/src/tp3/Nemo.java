@@ -4,9 +4,9 @@ package tp3;
 import java.util.*;
 
 public class Nemo {
-    public static Depth depth;
-    public static Coordinates coordinates;
-    public static Orientation orientation;
+    public Depth depth;
+    public Coordinates coordinates;
+    public Orientation orientation;
 
     public Nemo(){
         depth = new Surface();
