@@ -4,15 +4,10 @@ package tp3;
 import java.util.*;
 
 public class Nemo {
-    public Depth depth;
-    public Coordinates coordinates;
-    public Orientation orientation;
+    private Depth depth;
+    private Coordinates coordinates;
+    private Orientation orientation;
 
-    public Nemo(){
-        depth = new Surface();
-        coordinates = new Coordinates( 0, 0 );
-        orientation = new North();
-    }
     public Nemo(int x, int y, Orientation startingOrientation ) {
         depth = new Surface();
         coordinates = new Coordinates( x, y );
@@ -29,7 +24,6 @@ public class Nemo {
     }
 
     public void move( String instruction ) {
-
         instruction.chars()
                 .forEach( order -> move( (char) order ) );
     }
@@ -38,13 +32,9 @@ public class Nemo {
         Instructions.instructionFor( order,this );
     }
 
-    public String getOrientation() {
-        return orientation.getOrientation();
-    }
+    public String getOrientation() { return orientation.getOrientation(); }
 
-    public void goRight(){
-        orientation = orientation.goRight();
-    }
+    public void goRight(){ orientation = orientation.goRight(); }
 
     public void goLeft(){
         orientation = orientation.goLeft();

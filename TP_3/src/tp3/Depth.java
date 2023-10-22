@@ -1,7 +1,5 @@
 package tp3;
 
-import java.util.ArrayList;
-
 public abstract class Depth {
 
     public abstract boolean isOnSurface();

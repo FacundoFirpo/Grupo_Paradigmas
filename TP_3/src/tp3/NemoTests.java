@@ -1,6 +1,5 @@
 package tp3;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -12,117 +11,214 @@ public class NemoTests {
 
     @Test
     public void test01NewNemoIsOnSurface() {
-        Nemo nemo = new Nemo( 0, 0, new North() );
+        Nemo nemo = startNemo00North();
         assertTrue( nemo.isOnSurface() );
     }
 
     @Test
     public void test02NoMovementWhenNoOrderGiven(){
-        Nemo nemo = new Nemo( 0, 0, new North() );
+        Nemo nemo = startNemo00North();
         nemo.move(' ');
-        assertArrayEquals( new int[]{0, 0, 0}, nemo.getPosition() );
-        assertEquals( "North", nemo.getOrientation() );
+        checkPAndO00North(nemo);
     }
 
     @Test
-    public void test03NemoInitiatorWorks(){
-        Nemo nemo = new Nemo( -5, 19, new South() );
-        assertArrayEquals( new int[]{-5, 19, 0}, nemo.getPosition() );
-        assertEquals( "South", nemo.getOrientation() );
+    public void test03NemoInitiatorWorksWithNegatives(){
+        Nemo nemo = startNemoNeg519East();
+        checkPandOneg519East(nemo);
     }
 
     @Test
-    public void test04NemoDivesWhenGivenCharOrder(){
-        Nemo nemo = new Nemo( 0, 0, new North() );
+    public void test04NemoDives(){
+        Nemo nemo = startNemo00North();
         nemo.move('d');
-        assertArrayEquals( new int[]{0,0,1}, nemo.getPosition() );
+        checkPositionAndOrientation(nemo, 0, 0, 1, "North");
     }
 
     @Test
-    public void test05NemoDivesCorrectlyWhenGivenOrder(){
-        Nemo nemo = new Nemo( 0, 0, new North() );
-        nemo.move("dddu");
-        assertArrayEquals( new int[]{0,0,2}, nemo.getPosition() );
-    }
-
-    @Test
-    public void test06NemoCantGoUpIfOnSurface() {
-        Nemo nemo = new Nemo( 0, 0, new North() );
+    public void test05NemoCantGoUpIfOnSurface() {
+        Nemo nemo = startNemo00North();
         nemo.move('u');
-        assertArrayEquals( new int[]{0,0,0}, nemo.getPosition() );
+        checkPAndO00North(nemo);
     }
 
     @Test
-    public void test08NemoTurnsRight(){
-        Nemo nemoN = new Nemo( 0, 0, new North() );
-        Nemo nemoE = new Nemo( 0, 0, new East() );
-        Nemo nemoS = new Nemo( 0, 0, new South() );
-        Nemo nemoW = new Nemo( 0, 0, new West() );
-        nemoN.move('r');
-        nemoE.move('r');
-        nemoS.move('r');
-        nemoW.move('r');
-        assertEquals( "East", nemoN.getOrientation() );
-        assertEquals( "South", nemoE.getOrientation() );
-        assertEquals( "West", nemoS.getOrientation() );
-        assertEquals( "North", nemoW.getOrientation() );
+    public void test06NemoNorthTurnsRightEast(){
+        Nemo nemo = startNemo00North();
+        nemo.move('r');
+        checkPandO00East(nemo);
     }
 
     @Test
-    public void test09NemoTurnsLeft(){
-        Nemo nemoN = new Nemo( 0, 0, new North() );
-        Nemo nemoE = new Nemo( 0, 0, new East() );
-        Nemo nemoS = new Nemo( 0, 0, new South() );
-        Nemo nemoW = new Nemo( 0, 0, new West() );
-        nemoN.move('l');
-        nemoE.move('l');
-        nemoS.move('l');
-        nemoW.move('l');
-        assertEquals( "West", nemoN.getOrientation() );
-        assertEquals( "North", nemoE.getOrientation() );
-        assertEquals( "East", nemoS.getOrientation() );
-        assertEquals( "South", nemoW.getOrientation() );
+    public void test07NemoEastTurnsRightSouth(){
+        Nemo nemo = startNemo00East();
+        nemo.move('r');
+        checkPandO00South(nemo);
     }
 
     @Test
-    public void test10NemoMovesForward(){
-        Nemo nemoN = new Nemo( 0, 0, new North() );
-        Nemo nemoE = new Nemo( 0, 0, new East() );
-        Nemo nemoS = new Nemo( 0, 0, new South() );
-        Nemo nemoW = new Nemo( 0, 0, new West() );
-        nemoN.move('f');
-        nemoE.move('f');
-        nemoS.move('f');
-        nemoW.move('f');
-        assertArrayEquals( new int[]{0,1,0}, nemoN.getPosition() );
-        assertArrayEquals( new int[]{1,0,0}, nemoE.getPosition() );
-        assertArrayEquals( new int[]{0,-1,0}, nemoS.getPosition() );
-        assertArrayEquals( new int[]{-1,0,0}, nemoW.getPosition() );
+    public void test08NemoSouthTurnsRightWest(){
+        Nemo nemo = startNemo00South();
+        nemo.move('r');
+        checkPandO00West(nemo);
     }
 
     @Test
-    public void test11WhenNemoReleasesMissileNothingChanges(){
-        Nemo nemo = new Nemo( 10, -24, new East() );
+    public void test09NemoWestTurnsRightNorth(){
+        Nemo nemo = startNemo00West();
+        nemo.move('r');
+        checkPAndO00North(nemo);
+    }
+
+    @Test
+    public void test10NemoNorthTurnsLeftWest(){
+        Nemo nemo = startNemo00North();
+        nemo.move('l');
+        checkPandO00West(nemo);
+    }
+
+    @Test
+    public void test11NemoEastTurnsLeftNorth(){
+        Nemo nemo = startNemo00East();
+        nemo.move('l');
+        checkPAndO00North(nemo);
+    }
+
+    @Test
+    public void test12NemoSouthTurnsLeftEast(){
+        Nemo nemo = startNemo00South();
+        nemo.move('l');
+        checkPandO00East(nemo);
+    }
+
+    @Test
+    public void test13NemoWestTurnsLeftSouth(){
+        Nemo nemo = startNemo00West();
+        nemo.move('l');
+        checkPandO00South(nemo);
+    }
+
+    @Test
+    public void test14NemoFacingNorthMovesForward(){
+        Nemo nemo = startNemo00North();
+        nemo.move('f');
+        checkPositionAndOrientation(nemo, 0, 1, 0, "North");
+    }
+
+    @Test
+    public void test15NemoFacingEastMovesForward(){
+        Nemo nemo = startNemo00East();
+        nemo.move('f');
+        checkPositionAndOrientation(nemo, 1, 0, 0, "East");
+    }
+
+    @Test
+    public void test16NemoFacingSouthMovesForward(){
+        Nemo nemo = startNemo00South();
+        nemo.move('f');
+        checkPositionAndOrientation(nemo, 0, -1, 0, "South");
+    }
+
+    @Test
+    public void test17NemoFacingWestMovesForward(){
+        Nemo nemo = startNemo00West();
+        nemo.move('f');
+        checkPositionAndOrientation(nemo, -1, 0, 0, "West");
+    }
+
+    @Test
+    public void test18WhenNemoReleasesMissileNothingChanges(){
+        Nemo nemo = startNemoNeg519East();
         nemo.move('m');
-        assertArrayEquals( new int[]{10,-24,0}, nemo.getPosition() );
-        assertEquals( "East", nemo.getOrientation() );
+        checkPandOneg519East(nemo);
     }
 
     @Test
-    public void test12NemoCanReleaseMissileInShallowWater(){
-        Nemo nemo = new Nemo( 0, 0, new North() );
+    public void test19NemoDoesntChangeIfReceivingWeirdInstruction(){
+        Nemo nemo = startNemoNeg519East();
+        nemo.move('j');
+        checkPandOneg519East(nemo);
+    }
+
+    @Test
+    public void test20NemoCanReceiveEmptyString(){
+        Nemo nemo = startNemo00North();
+        nemo.move("");
+        checkPAndO00North(nemo);
+    }
+
+    @Test
+    public void test21NemoCanReleaseMissileInShallowWater(){
+        Nemo nemo = startNemo00North();
         nemo.move("dm");
-        assertArrayEquals( new int[]{0,0,0}, nemo.getPosition() );
+        checkPositionAndOrientation(nemo, 0, 0, 1, "North");
     }
     
     @Test
-    public void test13NemoCantReleaseMissile(){
-
+    public void test22NemoCantReleaseMissileBelowShallow(){
+        Nemo nemo = startNemo00North();
+        nemo.move("dd");
+        assertThrowsLike( () -> nemo.move('m') );
     }
 
-    private void assertThrowsLike( Executable executable, String error ) {
-        assertEquals(error,
+    @Test
+    public void test23NemoCanExecuteSeveralInstructions(){
+        Nemo nemo = startNemo00North();
+        nemo.move("dmdduummffmrrffjyxzlffmdddd");
+        checkPositionAndOrientation(nemo, 2, 0, 5, "East");
+    }
+
+    private void assertThrowsLike( Executable executable ) {
+        assertEquals(Bottom.ERRORCAPSULE,
                 assertThrows(RuntimeException.class, executable, FAIL_MESSAGE)
                         .getMessage());
+    }
+
+    private Nemo startNemo00North() {
+        return new Nemo( 0, 0, new North() );
+    }
+
+    private Nemo startNemoNeg519East() {
+        return new Nemo( -5, 19, new East() );
+    }
+
+    private Nemo startNemo00East() {
+        Nemo nemoE = new Nemo( 0, 0, new East() );
+        return nemoE;
+    }
+
+    private Nemo startNemo00West() {
+        Nemo nemoW = new Nemo( 0, 0, new West() );
+        return nemoW;
+    }
+
+    private Nemo startNemo00South() {
+        Nemo nemoS = new Nemo( 0, 0, new South() );
+        return nemoS;
+    }
+
+    private void checkPositionAndOrientation(Nemo nemo, int x, int y, int z, String orientation) {
+        assertArrayEquals( new int[]{x, y, z}, nemo.getPosition() );
+        assertEquals( orientation, nemo.getOrientation() );
+    }
+
+    private void checkPAndO00North(Nemo nemo) {
+        checkPositionAndOrientation(nemo, 0, 0, 0, "North");
+    }
+
+    private void checkPandOneg519East(Nemo nemo) {
+        checkPositionAndOrientation(nemo, -5, 19, 0, "East");
+    }
+
+    private void checkPandO00East(Nemo nemo) {
+        checkPositionAndOrientation(nemo, 0, 0, 0, "East");
+    }
+
+    private void checkPandO00South(Nemo nemo) {
+        checkPositionAndOrientation(nemo, 0, 0, 0, "South");
+    }
+
+    private void checkPandO00West(Nemo nemo) {
+        checkPositionAndOrientation(nemo, 0, 0, 0, "West");
     }
 }
