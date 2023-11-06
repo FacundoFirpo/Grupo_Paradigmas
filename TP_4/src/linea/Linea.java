@@ -6,19 +6,20 @@ public class Linea {
 
     public int base;
     public int altura;
-    public char modo;
+    public Modos modo;
     public boolean redFinished;
     public boolean blueFinished;
-    public String turno = "rojas";
-
-    public static String ERRORTURNO = "No es tu turno!";
+    public Turnos turno = new Rojas();
+    public String winner;
+    public static String ERRORPOSICION = "Posicion invalida";
+    public static String ERRORMODO = "Modo invalido";
 
     public ArrayList<ArrayList<String>> partida = new ArrayList<ArrayList<String>>();
 
     public Linea(int b, int a, char m) {
         base = b;
         altura = a;
-        modo = m;
+        modo = Modos.modoElegido(m, this);
         for (int i = 0; i < base; i++) {
             ArrayList<String> columna = new ArrayList<String>();
             partida.add(columna);
@@ -47,38 +48,42 @@ public class Linea {
     }
 
     public void playRedAt(int pos) {
-        if (turno == "azules"){
-            throw new RuntimeException(ERRORTURNO);
+        turno.playRed();
+
+        if (pos <= 0 || pos > base) {
+            throw new RuntimeException(ERRORPOSICION);
         }
 
-        if (pos > 0 && pos <= base) {
-            partida.get(pos - 1).add(" \uD83D\uDD34 ");
-        }
+        partida.get(pos - 1).add(" \uD83D\uDD34 ");
 
-        redFinished = horizontalWin(pos) || verticalWin(pos) || rightDiagonalWin(pos) ||leftDiagonalWin(pos);
+        redFinished = modo.estrategiasGanadoras( this, pos );
+
         if ( redFinished ){
             System.out.println( "Ganan las rojas!" );
+            winner = "rojas";
         }
 
-        turno = "azules";
+        turno = turno.next();
     }
 
     public void playBlueAt(int pos) {
 
-        if (turno == "rojas"){
-            throw new RuntimeException(ERRORTURNO);
+        turno.playBlue();
+
+        if (pos <= 0 || pos > base) {
+            throw new RuntimeException(ERRORPOSICION);
         }
 
-        if (pos > 0 && pos <= base) {
-            partida.get(pos - 1).add(" \uD83D\uDD35 ");
-        }
+        partida.get(pos - 1).add( " \uD83D\uDD35 " );
 
-        blueFinished = horizontalWin(pos) || verticalWin(pos) || rightDiagonalWin(pos) ||leftDiagonalWin(pos);
+        blueFinished = modo.estrategiasGanadoras( this, pos );
+
         if ( blueFinished ){
             System.out.println( "Ganan las azules!" );
+            winner = "azules";
         }
 
-        turno = "rojas";
+        turno = turno.next();
     }
 
     public boolean horizontalWin(int col) {
@@ -150,8 +155,8 @@ public class Linea {
         String ficha = partida.get(col - 1).get(fila - 1);
         int enLinea = 0;
         int inicio = col + fila - 2;
-        for ( int i = 0; i < altura - ( inicio - base ); i++ ) {
-            if ( inicio - i < base && inicio - i > 0 ) {
+        for ( int i = 0; i < altura; i++ ) {
+            if ( inicio - i < base && inicio - i >= 0 ) {
                 if ( partida.get(inicio - i).size() > i ) {
                     if ( partida.get(inicio - i).get(i) == ficha ) {
                         enLinea++;
@@ -167,5 +172,9 @@ public class Linea {
             }
         }
         return false;
+        }
+
+        public String winner() {
+            return winner;
         }
 }
