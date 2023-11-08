@@ -11,4 +11,8 @@ public class Rojas extends Turnos{
     public void playBlue(){
         throw new RuntimeException( ERRORTURNO );
     }
+
+    public String ficha(){
+        return " \uD83D\uDD34 ";
+    }
 }

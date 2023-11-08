@@ -89,11 +89,10 @@ public class Linea {
         int colIndice = col - 1;
         int fila = partida.get(colIndice).size();
         int filaIndice = fila - 1;
-        String ficha = partida.get(colIndice).get(filaIndice);
         int enLinea = 0;
 
         for (int i = col - 4; i < col + 3; i++) {
-            enLinea = enLinea(i, filaIndice, ficha, enLinea );
+            enLinea = enLinea(i, filaIndice, turno.ficha(), enLinea );
             if (enLinea == 4) {
                 return true;
             }
@@ -104,12 +103,12 @@ public class Linea {
 
 
     public boolean verticalWin(int col) {
-        int fila = partida.get(col - 1).size();
-        String ficha = partida.get(col - 1).get(fila - 1);
+        int colIndice = col - 1;
+        int fila = partida.get(colIndice).size();
         int enLinea = 0;
 
         for (int i = 0; i < fila; i++) {
-            enLinea = enLinea(col - 1, i, ficha, enLinea);
+            enLinea = enLinea(colIndice, i, turno.ficha(), enLinea);
             if (enLinea == 4) {
                 return true;
             }
@@ -120,11 +119,10 @@ public class Linea {
 
     public boolean rightDiagonalWin(int col) {
         int fila = partida.get(col - 1).size();
-        String ficha = partida.get(col - 1).get(fila - 1);
         int enLinea = 0;
         int inicio = col - fila;
         for (int i = 0; i < base - inicio; i++) {
-            enLinea = enLinea(inicio + i, i, ficha, enLinea);
+            enLinea = enLinea(inicio + i, i, turno.ficha(), enLinea);
             if (enLinea == 4) {
                 return true;
             }
@@ -135,11 +133,10 @@ public class Linea {
 
     public boolean leftDiagonalWin(int col) {
         int fila = partida.get(col - 1).size();
-        String ficha = partida.get(col - 1).get(fila - 1);
         int enLinea = 0;
         int inicio = col + fila - 2;
         for ( int i = 0; i < altura; i++ ) {
-            enLinea = enLinea( inicio - i, i, ficha, enLinea );
+            enLinea = enLinea( inicio - i, i, turno.ficha(), enLinea );
             if ( enLinea == 4 ) {
                 return true;
             }

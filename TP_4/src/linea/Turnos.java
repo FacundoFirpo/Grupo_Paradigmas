@@ -9,4 +9,6 @@ public abstract class Turnos {
     public abstract void playRed();
 
     public abstract void playBlue();
+
+    public abstract String ficha();
 }

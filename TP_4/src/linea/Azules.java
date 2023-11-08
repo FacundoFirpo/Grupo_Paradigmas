@@ -11,4 +11,8 @@ public class Azules extends Turnos{
     }
 
     public void playBlue(){}
+
+    public String ficha(){
+        return " \uD83D\uDD35 ";
+    }
 }
