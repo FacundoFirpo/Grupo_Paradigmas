@@ -12,7 +12,6 @@ public class Linea {
     public Turnos turno = new Rojas();
     public String winner;
     public static String ERRORPOSICION = "Posicion invalida";
-    public static String ERRORMODO = "Modo invalido";
 
     public ArrayList<ArrayList<String>> partida = new ArrayList<ArrayList<String>>();
 
@@ -47,7 +46,7 @@ public class Linea {
         return redFinished || blueFinished;
     }
 
-    public void playRedAt(int pos) {
+    public void playRedAt( int pos ) {
         turno.playRed();
 
         if (pos <= 0 || pos > base) {
@@ -66,7 +65,7 @@ public class Linea {
         turno = turno.next();
     }
 
-    public void playBlueAt(int pos) {
+    public void playBlueAt( int pos ) {
 
         turno.playBlue();
 
@@ -86,43 +85,36 @@ public class Linea {
         turno = turno.next();
     }
 
-    public boolean horizontalWin(int col) {
-        int fila = partida.get(col - 1).size();
-        String ficha = partida.get(col - 1).get(fila - 1);
+    public boolean horizontalWin( int col ) {
+        int colIndice = col - 1;
+        int fila = partida.get(colIndice).size();
+        int filaIndice = fila - 1;
+        String ficha = partida.get(colIndice).get(filaIndice);
         int enLinea = 0;
-        for (int i = 0; i < base; i++) {
-            if (partida.get(i).size() >= fila) {
-                if (partida.get(i).get(fila - 1) == ficha) {
-                    enLinea++;
-                } else {
-                    enLinea = 0;
-                }
-            } else {
-                enLinea = 0;
-            }
+
+        for (int i = col - 4; i < col + 3; i++) {
+            enLinea = enLinea(i, filaIndice, ficha, enLinea );
             if (enLinea == 4) {
                 return true;
             }
         }
+
         return false;
     }
+
 
     public boolean verticalWin(int col) {
         int fila = partida.get(col - 1).size();
         String ficha = partida.get(col - 1).get(fila - 1);
         int enLinea = 0;
-        if (fila > 3) {
-            for (int i = 0; i < fila; i++) {
-                if (partida.get(col - 1).get(i) == ficha) {
-                    enLinea++;
-                } else {
-                    enLinea = 0;
-                }
-                if (enLinea == 4) {
-                    return true;
-                }
+
+        for (int i = 0; i < fila; i++) {
+            enLinea = enLinea(col - 1, i, ficha, enLinea);
+            if (enLinea == 4) {
+                return true;
             }
         }
+
         return false;
     }
 
@@ -132,21 +124,12 @@ public class Linea {
         int enLinea = 0;
         int inicio = col - fila;
         for (int i = 0; i < base - inicio; i++) {
-            if (inicio + i >= 0) {
-                if (partida.get(inicio + i).size() > i) {
-                    if (partida.get(inicio + i).get(i) == ficha) {
-                        enLinea++;
-                    } else {
-                        enLinea = 0;
-                    }
-                    if (enLinea == 4) {
-                        return true;
-                    }
-                } else {
-                    enLinea = 0;
-                }
+            enLinea = enLinea(inicio + i, i, ficha, enLinea);
+            if (enLinea == 4) {
+                return true;
             }
         }
+
         return false;
         }
 
@@ -156,23 +139,35 @@ public class Linea {
         int enLinea = 0;
         int inicio = col + fila - 2;
         for ( int i = 0; i < altura; i++ ) {
-            if ( inicio - i < base && inicio - i >= 0 ) {
-                if ( partida.get(inicio - i).size() > i ) {
-                    if ( partida.get(inicio - i).get(i) == ficha ) {
-                        enLinea++;
-                    } else {
-                        enLinea = 0;
-                    }
-                    if (enLinea == 4) {
-                        return true;
-                    }
-                } else {
-                    enLinea = 0;
-                }
+            enLinea = enLinea( inicio - i, i, ficha, enLinea );
+            if ( enLinea == 4 ) {
+                return true;
             }
         }
+
         return false;
         }
+
+    public int enLinea(int colIndice, int filaIndice, String ficha, int enLinea) {
+        if ( indiceColumnaExiste( colIndice )) {
+            if (indiceFilaExiste( filaIndice, colIndice )) {
+                if (partida.get(colIndice).get(filaIndice) == ficha) {
+                    return enLinea + 1;
+                }
+                return 0;
+            }
+            return 0;
+        }
+        return enLinea;
+    }
+
+    public boolean indiceFilaExiste( int i, int col ){
+        return i >= 0 && i < partida.get(col).size();
+    }
+
+    public boolean indiceColumnaExiste( int i ){
+        return i >= 0 && i < base;
+    }
 
         public String winner() {
             return winner;

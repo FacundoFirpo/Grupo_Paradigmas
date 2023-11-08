@@ -268,6 +268,11 @@ public class GameTests {
         assertFalse(game.finished());
     }
 
+    @Test
+    public void test34ModeThatDoesntExistCantStartGame(){
+        assertThrowsLike( () -> new Linea( 4, 4, 'D' ), Modos.ERRORMODO );
+    }
+
 
     private void assertThrowsLike( Executable executable, String error ) {
         assertEquals(error,
