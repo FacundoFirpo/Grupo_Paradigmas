@@ -1,6 +1,7 @@
 package linea;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 public class Linea {
 
@@ -19,10 +20,7 @@ public class Linea {
         base = b;
         altura = a;
         modo = Modos.modoElegido(m, this);
-        for (int i = 0; i < base; i++) {
-            ArrayList<String> columna = new ArrayList<String>();
-            partida.add(columna);
-        }
+        IntStream.range(0, base).forEach( i -> partida.add( new ArrayList<String>() ) );
     }
 
     public String show() {
@@ -89,14 +87,10 @@ public class Linea {
 
         for (int i = col - 4; i < col + 3; i++) {
             enLinea = enLinea(i, filaIndice, turno.ficha(), enLinea );
-            if (enLinea == 4) {
-                return true;
-            }
         }
 
-        return false;
+        return termino( enLinea );
     }
-
 
     public boolean verticalWin(int col) {
         int colIndice = col - 1;
@@ -105,12 +99,9 @@ public class Linea {
 
         for (int i = 0; i < fila; i++) {
             enLinea = enLinea(colIndice, i, turno.ficha(), enLinea);
-            if (enLinea == 4) {
-                return true;
-            }
         }
 
-        return false;
+        return termino( enLinea );
     }
 
     public boolean rightDiagonalWin(int col) {
@@ -119,12 +110,9 @@ public class Linea {
         int inicio = col - fila;
         for (int i = 0; i < base - inicio; i++) {
             enLinea = enLinea(inicio + i, i, turno.ficha(), enLinea);
-            if (enLinea == 4) {
-                return true;
-            }
         }
 
-        return false;
+        return termino( enLinea );
         }
 
     public boolean leftDiagonalWin(int col) {
@@ -133,12 +121,9 @@ public class Linea {
         int inicio = col + fila - 2;
         for ( int i = 0; i < altura; i++ ) {
             enLinea = enLinea( inicio - i, i, turno.ficha(), enLinea );
-            if ( enLinea == 4 ) {
-                return true;
-            }
         }
 
-        return false;
+        return termino( enLinea );
         }
 
     public int enLinea(int colIndice, int filaIndice, String ficha, int enLinea) {
@@ -164,5 +149,9 @@ public class Linea {
 
     public String winner() {
         return winner;
+    }
+
+    public boolean termino(int enLinea){
+        return enLinea == 4;
     }
 }
