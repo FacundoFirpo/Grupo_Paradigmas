@@ -58,8 +58,8 @@ public class Linea {
         redFinished = modo.estrategiasGanadoras( this, pos );
 
         if ( redFinished ){
-            System.out.println( "Ganan las rojas!" );
-            winner = "rojas";
+            System.out.println( "Ganan las" + turno.ficha() );
+            winner = turno.ficha();
         }
 
         turno = turno.next();
@@ -78,8 +78,8 @@ public class Linea {
         blueFinished = modo.estrategiasGanadoras( this, pos );
 
         if ( blueFinished ){
-            System.out.println( "Ganan las azules!" );
-            winner = "azules";
+            System.out.println( "Ganan las" + turno.ficha() );
+            winner = turno.ficha();
         }
 
         turno = turno.next();
@@ -166,7 +166,7 @@ public class Linea {
         return i >= 0 && i < base;
     }
 
-        public String winner() {
-            return winner;
-        }
+    public String winner() {
+        return winner;
+    }
 }

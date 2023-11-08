@@ -88,96 +88,84 @@ public class GameTests {
     public void test10RedWinsVerticallyInC() {
         Linea game = new Linea( 4, 4, 'C' );
         redWinsV(game);
-        assertTrue( game.finished() );
-        assertEquals( game.winner(), "rojas" );
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test11BlueWinsVerticallyInC() {
         Linea game = new Linea(4, 4, 'C');
         blueWinsV(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test12RedWinsHorizontallyInC() {
         Linea game = new Linea(4, 4, 'C');
         redWinsH(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test13BlueWinsHorizontallyInC() {
         Linea game = new Linea(4, 4, 'C');
         blueWinsH(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test14RedWinsRightDiagonallyInC() {
         Linea game = new Linea(4, 4, 'C');
         redWinsRightD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test15BlueWinsRightDiagonallyInC() {
         Linea game = new Linea(4, 4, 'C');
         blueWinsRightD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test16RedWinsLeftDiagonallyInC() {
         Linea game = new Linea(4, 4, 'C');
         redWinsLeftD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test17BlueWinsLeftDiagonallyInC() {
         Linea game = new Linea(4, 4, 'C');
         blueWinsLeftD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test18RedWinsVerticallyInA() {
         Linea game = new Linea(4, 4, 'A');
         redWinsV(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test19BlueWinsVerticallyInA() {
         Linea game = new Linea(4, 4, 'A');
         blueWinsV(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test20RedWinsHorizontallyInA() {
         Linea game = new Linea(4, 4, 'A');
         redWinsH(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test21BlueWinsHorizontallyInA() {
         Linea game = new Linea(4, 4, 'A');
         blueWinsH(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
@@ -212,32 +200,28 @@ public class GameTests {
     public void test26RedWinsRightDiagonallyInB() {
         Linea game = new Linea(4, 4, 'B');
         redWinsRightD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test27BlueWinsRightDiagonallyInB() {
         Linea game = new Linea(4, 4, 'B');
         blueWinsRightD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
     public void test28RedWinsLeftDiagonallyInB() {
         Linea game = new Linea(4, 4, 'B');
         redWinsLeftD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "rojas");
+        assertWinner(game, " \uD83D\uDD34 ");
     }
 
     @Test
     public void test29BlueWinsLeftDiagonallyInB() {
         Linea game = new Linea(4, 4, 'B');
         blueWinsLeftD(game);
-        assertTrue(game.finished());
-        assertEquals(game.winner(), "azules");
+        assertWinner(game, " \uD83D\uDD35 ");
     }
 
     @Test
@@ -378,5 +362,10 @@ public class GameTests {
         game.playBlueAt(3);
         game.playRedAt(3);
         game.playBlueAt(4);
+    }
+
+    private void assertWinner(Linea game, String winner) {
+        assertTrue(game.finished());
+        assertEquals(game.winner(), winner);
     }
 }
