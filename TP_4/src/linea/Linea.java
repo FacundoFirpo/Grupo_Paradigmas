@@ -30,11 +30,7 @@ public class Linea {
         for (int i = altura - 1; i >= 0; i--) {
             tablero += "\n|";
             for (int j = 0; j < base; j++) {
-                if (partida.get(j).size() > i) {
-                    tablero += partida.get(j).get(i);
-                } else {
-                    tablero += " \uD83D\uDD18 ";
-                }
+                tablero += indiceFilaExiste( i, j) ? partida.get(j).get(i) : " \uD83D\uDD18 ";
             }
             tablero += "|";
         }
