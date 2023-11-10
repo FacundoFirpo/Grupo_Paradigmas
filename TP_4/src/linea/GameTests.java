@@ -257,6 +257,10 @@ public class GameTests {
         assertThrowsLike( () -> new Linea( 4, 4, 'D' ), Modos.ERRORMODO );
     }
 
+    @Test
+    public void test35BoardCantBeTooSmall(){
+        assertThrowsLike( () -> new Linea( 3, 3, 'C' ), Linea.ERRORTABLERO );
+    }
 
     private void assertThrowsLike( Executable executable, String error ) {
         assertEquals(error,

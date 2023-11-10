@@ -1,6 +1,8 @@
 package linea;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Linea {
@@ -11,13 +13,17 @@ public class Linea {
     public boolean redFinished;
     public boolean blueFinished;
     public Turnos turno = new Rojas();
+    public int turnosJugados = 0;
     public String winner;
     public static String ERRORPOSICION = "Posicion invalida";
+    public static String ERRORTABLERO = "El tablero es demasiado chico";
 
     public ArrayList<ArrayList<Turnos>> partida = new ArrayList<ArrayList<Turnos>>();
     public int enLinea = 0;
+    ArrayList<String> tablero = new ArrayList<>();
 
     public Linea(int b, int a, char m) {
+        if ( b < 4 && a < 4 ) throw new RuntimeException( ERRORTABLERO );
         base = b;
         altura = a;
         modo = Modos.modoElegido(m, this);
@@ -25,20 +31,26 @@ public class Linea {
     }
 
     public String show() {
-        String tablero = "";
-        for (int i = altura - 1; i >= 0; i--) {
-            tablero += "\n|";
-            for (int j = 0; j < base; j++) {
-                tablero += indiceFilaExiste( i, j ) ? partida.get(j).get(i).ficha() : " \uD83D\uDD18 ";
-            }
-            tablero += "|";
-        }
-        tablero += "\n|" + " \uD83D\uDD3C ".repeat(base) + "|";
-        return tablero;
+
+        IntStream.range(1, altura + 1).forEach( i -> {
+            tablero.add( "\n|");
+            IntStream.range(0, base).forEach( j -> {
+                if ( indiceFilaExiste( altura - i, j ) ) {
+                    tablero.add( partida.get(j).get(altura - i).ficha() );
+                } else {
+                    tablero.add( " \uD83D\uDD18 " );
+                }
+            } );
+            tablero.add( "|" );
+        });
+        tablero.add( "\n|" + " \uD83D\uDD3C ".repeat(base) + "|" );
+        String tableroString = String.join( "", tablero );
+        tablero.clear();
+        return tableroString;
     }
 
     public boolean finished() {
-        return redFinished || blueFinished;
+        return redFinished || blueFinished || turnosJugados == base * altura;
     }
 
     public void playRedAt( int pos ) {
@@ -58,6 +70,7 @@ public class Linea {
         }
 
         turno = turno.next();
+        turnosJugados++;
     }
 
     public void playBlueAt( int pos ) {
@@ -77,14 +90,13 @@ public class Linea {
         }
 
         turno = turno.next();
+        turnosJugados++;
     }
 
     public boolean horizontalWin( int col ) {
-        int colIndice = col - 1;
-        int fila = partida.get(colIndice).size();
-        int filaIndice = fila - 1;
 
-        IntStream.range(col - 4, col + 3).forEach( i -> enLinea = enLinea( i, filaIndice, turno.ficha(), enLinea ) );
+
+        IntStream.range(col - 4, col + 3).forEach( i -> enLinea = enLinea( i, partida.get(col - 1).size() - 1, turno.ficha(), enLinea ) );
 
         boolean estado = termino( enLinea );
         enLinea = 0;
@@ -92,10 +104,8 @@ public class Linea {
     }
 
     public boolean verticalWin(int col) {
-        int colIndice = col - 1;
-        int fila = partida.get(colIndice).size();
 
-        IntStream.range(0, fila).forEach( i -> enLinea = enLinea( colIndice, i, turno.ficha(), enLinea ) );
+        IntStream.range(0, partida.get(col - 1).size()).forEach( i -> enLinea = enLinea( col - 1, i, turno.ficha(), enLinea ) );
 
         boolean estado = termino( enLinea );
         enLinea = 0;
@@ -103,8 +113,7 @@ public class Linea {
     }
 
     public boolean rightDiagonalWin(int col) {
-        int fila = partida.get(col - 1).size();
-        int inicio = col - fila;
+        int inicio = col - partida.get(col - 1).size();
 
         IntStream.range(0, base - inicio).forEach( i -> enLinea = enLinea( inicio + i, i, turno.ficha(), enLinea ) );
 
@@ -114,8 +123,7 @@ public class Linea {
         }
 
     public boolean leftDiagonalWin(int col) {
-        int fila = partida.get(col - 1).size();
-        int inicio = col + fila - 2;
+        int inicio = col + partida.get(col - 1).size() - 2;
 
         IntStream.range(0, altura).forEach( i -> enLinea = enLinea( inicio - i, i, turno.ficha(), enLinea ) );
 
