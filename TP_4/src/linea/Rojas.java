@@ -15,4 +15,8 @@ public class Rojas extends Turnos{
     public String ficha(){
         return " \uD83D\uDD34 ";
     }
+
+    public boolean equals( Object obj ){
+        return obj instanceof Rojas;
+    }
 }

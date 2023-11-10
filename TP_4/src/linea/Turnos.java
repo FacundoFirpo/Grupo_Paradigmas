@@ -11,4 +11,6 @@ public abstract class Turnos {
     public abstract void playBlue();
 
     public abstract String ficha();
+
+    public abstract boolean equals( Object obj );
 }

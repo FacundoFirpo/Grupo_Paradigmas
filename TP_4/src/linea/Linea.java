@@ -14,13 +14,14 @@ public class Linea {
     public String winner;
     public static String ERRORPOSICION = "Posicion invalida";
 
-    public ArrayList<ArrayList<String>> partida = new ArrayList<ArrayList<String>>();
+    public ArrayList<ArrayList<Turnos>> partida = new ArrayList<ArrayList<Turnos>>();
+    public int enLinea = 0;
 
     public Linea(int b, int a, char m) {
         base = b;
         altura = a;
         modo = Modos.modoElegido(m, this);
-        IntStream.range(0, base).forEach( i -> partida.add( new ArrayList<String>() ) );
+        IntStream.range(0, base).forEach( i -> partida.add( new ArrayList<Turnos>() ) );
     }
 
     public String show() {
@@ -28,7 +29,7 @@ public class Linea {
         for (int i = altura - 1; i >= 0; i--) {
             tablero += "\n|";
             for (int j = 0; j < base; j++) {
-                tablero += indiceFilaExiste( i, j) ? partida.get(j).get(i) : " \uD83D\uDD18 ";
+                tablero += indiceFilaExiste( i, j ) ? partida.get(j).get(i).ficha() : " \uD83D\uDD18 ";
             }
             tablero += "|";
         }
@@ -47,7 +48,7 @@ public class Linea {
             throw new RuntimeException(ERRORPOSICION);
         }
 
-        partida.get(pos - 1).add(" \uD83D\uDD34 ");
+        partida.get(pos - 1).add( new Rojas() );
 
         redFinished = modo.estrategiasGanadoras( this, pos );
 
@@ -60,14 +61,13 @@ public class Linea {
     }
 
     public void playBlueAt( int pos ) {
-
         turno.playBlue();
 
         if (pos <= 0 || pos > base) {
             throw new RuntimeException(ERRORPOSICION);
         }
 
-        partida.get(pos - 1).add( " \uD83D\uDD35 " );
+        partida.get(pos - 1).add( new Azules() );
 
         blueFinished = modo.estrategiasGanadoras( this, pos );
 
@@ -83,53 +83,51 @@ public class Linea {
         int colIndice = col - 1;
         int fila = partida.get(colIndice).size();
         int filaIndice = fila - 1;
-        int enLinea = 0;
 
-        for (int i = col - 4; i < col + 3; i++) {
-            enLinea = enLinea(i, filaIndice, turno.ficha(), enLinea );
-        }
+        IntStream.range(col - 4, col + 3).forEach( i -> enLinea = enLinea( i, filaIndice, turno.ficha(), enLinea ) );
 
-        return termino( enLinea );
+        boolean estado = termino( enLinea );
+        enLinea = 0;
+        return estado;
     }
 
     public boolean verticalWin(int col) {
         int colIndice = col - 1;
         int fila = partida.get(colIndice).size();
-        int enLinea = 0;
 
-        for (int i = 0; i < fila; i++) {
-            enLinea = enLinea(colIndice, i, turno.ficha(), enLinea);
-        }
+        IntStream.range(0, fila).forEach( i -> enLinea = enLinea( colIndice, i, turno.ficha(), enLinea ) );
 
-        return termino( enLinea );
+        boolean estado = termino( enLinea );
+        enLinea = 0;
+        return estado;
     }
 
     public boolean rightDiagonalWin(int col) {
         int fila = partida.get(col - 1).size();
-        int enLinea = 0;
         int inicio = col - fila;
-        for (int i = 0; i < base - inicio; i++) {
-            enLinea = enLinea(inicio + i, i, turno.ficha(), enLinea);
-        }
 
-        return termino( enLinea );
+        IntStream.range(0, base - inicio).forEach( i -> enLinea = enLinea( inicio + i, i, turno.ficha(), enLinea ) );
+
+        boolean estado = termino( enLinea );
+        enLinea = 0;
+        return estado;
         }
 
     public boolean leftDiagonalWin(int col) {
         int fila = partida.get(col - 1).size();
-        int enLinea = 0;
         int inicio = col + fila - 2;
-        for ( int i = 0; i < altura; i++ ) {
-            enLinea = enLinea( inicio - i, i, turno.ficha(), enLinea );
-        }
 
-        return termino( enLinea );
+        IntStream.range(0, altura).forEach( i -> enLinea = enLinea( inicio - i, i, turno.ficha(), enLinea ) );
+
+        boolean estado = termino( enLinea );
+        enLinea = 0;
+        return estado;
         }
 
     public int enLinea(int colIndice, int filaIndice, String ficha, int enLinea) {
         if ( indiceColumnaExiste( colIndice )) {
             if (indiceFilaExiste( filaIndice, colIndice )) {
-                if (partida.get(colIndice).get(filaIndice) == ficha) {
+                if ( turno.equals( partida.get(colIndice).get(filaIndice) )) {
                     return enLinea + 1;
                 }
                 return 0;
